@@ -95,4 +95,4 @@ Found any bug, or want to improve the code (or this readme)? Any pull request is
 
 # License
 
-This library is released under the Apache 2.0 licence. See the [License.md](LICENSE.md) file.
+This library is released under the Apache 2.0 licence. See the [License](LICENSE) file.
