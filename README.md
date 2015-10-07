@@ -14,7 +14,7 @@ This library depends on [Apache MINA](http://http://mina.apache.org/). Tested ve
 
 The easy way to start using is:
 
-1. Download the [library](https://github.com/danlobo/mikrotik-java-nio/dist) and put in your lib folder
+1. Download the [library](https://github.com/danlobo/mikrotik-java-nio/tree/master/dist) and put in your lib folder
 2. Download the [Apache MINA](http://http://mina.apache.org/) library and put in your lib folder
 3. Use it
 
