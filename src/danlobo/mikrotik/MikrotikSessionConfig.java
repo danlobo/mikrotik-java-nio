@@ -1,11 +1,27 @@
 package danlobo.mikrotik;
 
 public class MikrotikSessionConfig {
-    int connectTimeout;
-    int responseTimeout;
+    private int _connectTimeout;
+    private int _responseTimeout;
+
+    public int getResponseTimeout() {
+        return _responseTimeout;
+    }
+
+    public void setResponseTimeout(int value) {
+        this._responseTimeout = value;
+    }
+
+    public int getConnectTimeout() {
+        return _connectTimeout;
+    }
+
+    public void setConnectTimeout(int connectTimeout) {
+        this._connectTimeout = connectTimeout;
+    }
 
     public MikrotikSessionConfig() {
-        connectTimeout = 15000;
-        responseTimeout = 30000;
+        _connectTimeout = 15000;
+        _responseTimeout = 30000;
     }
 }
