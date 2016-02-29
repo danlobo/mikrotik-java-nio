@@ -121,7 +121,7 @@ public class MikrotikSession implements Closeable {
                 if (listener.isCompleted())
                     return listener.getData();
 
-                listener.wait(sessionConfig.responseTimeout);
+                listener.wait(sessionConfig.getResponseTimeout());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -158,7 +158,7 @@ public class MikrotikSession implements Closeable {
         MikrotikResponseListener listener = this.handler.informInterest(cmd.tag);
         try {
             WriteFuture futureWrite = session.write(cmd);
-            futureWrite.await(sessionConfig.responseTimeout);
+            futureWrite.await(sessionConfig.getResponseTimeout());
 
             if (!futureWrite.isDone())
                 throw new MikrotikConnectionException("request timeout");
@@ -169,7 +169,7 @@ public class MikrotikSession implements Closeable {
                 if (listener.isCompleted())
                     return listener.getData();
 
-                listener.wait(sessionConfig.responseTimeout);
+                listener.wait(sessionConfig.getResponseTimeout());
             }
 
             if (listener.getException() != null)
