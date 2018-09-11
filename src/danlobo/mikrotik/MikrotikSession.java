@@ -45,34 +45,39 @@ public class MikrotikSession implements Closeable {
 
     public void login(String username, String password) throws MikrotikConnectionException, MikrotikProtocolException {
         List<Map<String, String>> response = null;
+        Map<String, String> attrs_post_6_43 = new HashMap<String, String>();
+        attrs_post_6_43.put("name", username);
+        attrs_post_6_43.put("password", password);
+
         for(int i = 0; i < 3; i++) {
-            response = _execute(new Command("/login"));
-            if (response != null && response.size() > 0) {
+            try {
+                response = _execute(new Command("/login", attrs_post_6_43));
                 break;
-            } else {
+            } catch(Exception e) {
                 try {
                     Thread.sleep(250);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e1) {
                     break;
                 }
             }
         }
 
-        if (response == null || response.size() == 0) {
+        if (response == null) {
             throw new MikrotikConnectionException("Could not login: empty response");
         }
 
+        if (response.size() > 0) {
+            String ret = response.get(0).get("ret");
+            if (ret == null)
+                throw new MikrotikConnectionException("Could not login: hash not informed");
 
-        String ret = response.get(0).get("ret");
-        if (ret == null)
-            throw new MikrotikConnectionException("Could not login: hash not informed");
+            String challenge = md5(password, ret);
+            Map<String, String> attrs = new HashMap<String, String>();
+            attrs.put("name", username);
+            attrs.put("response", "00" + challenge);
 
-        String challenge = md5(password, ret);
-        Map<String, String> attrs = new HashMap<String, String>();
-        attrs.put("name", username);
-        attrs.put("response", "00" + challenge);
-
-        _execute(new Command("/login", attrs));
+            _execute(new Command("/login", attrs));
+        }
     }
 
     static String toHexString(byte[] ba) {

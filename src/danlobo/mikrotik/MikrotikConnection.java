@@ -70,7 +70,11 @@ public class MikrotikConnection implements Closeable {
         return mktSession;
     }
 
-    private static IoSession establishConnection(NioSocketConnector connector, SocketAddress sa) throws MikrotikConnectionException {
+    private IoSession establishConnection(NioSocketConnector connector, SocketAddress sa) throws MikrotikConnectionException {
+        int connectTimeout = getSessionConfig().getConnectTimeout();
+        if (connectTimeout > 0)
+            connector.setConnectTimeoutMillis(connectTimeout);
+
         ConnectFuture future = connector.connect(sa);
         try {
             future.await(10000);
